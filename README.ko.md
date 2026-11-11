@@ -35,6 +35,10 @@ python3 agents_md_check.py /path/to/project --require-files
 
 `.gitignore`는 적용하지 않습니다. 검사할 폴더를 신중하게 고르세요. 1 MiB보다 큰 파일은 내용을 검사하지 않으며 전체 검사는 미완료로 표시됩니다. 출력에 개인 경로가 포함될 수 있으므로 공유 전에 확인하세요.
 
+## 의견 보내기
+
+[문제나 개선 아이디어를 알려주세요](https://github.com/yangdoh/agents-md-check/issues/new/choose). 한국어로 작성해도 됩니다. GitHub 계정이 필요하며 제보 내용은 공개됩니다. 개인 지시사항, 경로, 비밀정보는 지우고 올려주세요.
+
 ## 기여와 라이선스
 
 문제 제보와 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md)를 참고하세요. 라이선스는 [MIT](LICENSE)입니다.

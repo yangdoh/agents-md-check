@@ -53,6 +53,12 @@ AGENTS.md:1: merge_marker: Possible unresolved merge-conflict marker.
 Review each finding before changing instructions. A warning is not proof that
 the instructions are unsafe or that an agent has applied them.
 
+## Feedback
+
+Tried the checker? [Report a problem or suggest an improvement](https://github.com/yangdoh/agents-md-check/issues/new/choose).
+You can write in English or Korean. GitHub issues are public and require a GitHub
+account; remove private instructions, paths, and secrets before posting.
+
 ## Tests
 
 ```sh
