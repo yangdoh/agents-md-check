@@ -31,6 +31,16 @@ The tool recursively scans `AGENTS.md` files beneath the selected directory. It 
 
 Exit codes are `0` for no findings, `1` for findings, and `2` for invalid arguments or an incomplete scan. A directory with no `AGENTS.md` files produces a clean report with zero files; it does not mean the repository has valid instructions.
 
+For example, a file containing an unresolved `<<<<<<< HEAD` marker produces:
+
+```text
+Scanned 1 AGENTS.md file(s); found 1 issue(s).
+AGENTS.md:1: merge_marker: Possible unresolved merge-conflict marker.
+```
+
+Review each finding before changing instructions. A warning is not proof that
+the instructions are unsafe or that an agent has applied them.
+
 ## Tests
 
 ```sh
@@ -39,7 +49,8 @@ python3 -m unittest discover -s tests -v
 
 ## Contributing
 
-Issues and pull requests are welcome. Please do not include private instructions, secrets, or customer information in reports. Include a minimal sanitized reproduction and your Python version.
+Issues and pull requests are welcome. See [CONTRIBUTING.md](CONTRIBUTING.md)
+for a minimal reproduction, privacy guidance, and the test command.
 
 ## License
 
