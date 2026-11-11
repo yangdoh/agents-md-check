@@ -60,6 +60,23 @@ class CliTests(unittest.TestCase):
         self.assertTrue(report["incomplete"])
         self.assertIn("read_limit", [item["code"] for item in report["findings"]])
 
+    def test_require_files_reports_missing_only_when_requested(self):
+        default = self.run_cli(self.root, "--json")
+        self.assertEqual(default.returncode, 0)
+        self.assertEqual(json.loads(default.stdout)["findings"], [])
+        required = self.run_cli(self.root, "--json", "--require-files")
+        self.assertEqual(required.returncode, 1)
+        report = json.loads(required.stdout)
+        self.assertEqual(report["files_scanned"], [])
+        self.assertEqual(report["findings"][0]["code"], "no_files")
+        self.assertFalse(report["incomplete"])
+
+    def test_require_files_accepts_a_clean_file(self):
+        (self.root / "AGENTS.md").write_text("# Instructions\n", encoding="utf-8")
+        result = self.run_cli(self.root, "--json", "--require-files")
+        self.assertEqual(result.returncode, 0)
+        self.assertEqual(json.loads(result.stdout)["findings"], [])
+
 
 if __name__ == "__main__":
     unittest.main()

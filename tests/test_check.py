@@ -4,6 +4,7 @@ import json
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 import agents_md_check as checker
 
@@ -81,6 +82,14 @@ class CheckTests(unittest.TestCase):
         (self.root / "AGENTS.md").write_bytes(b"x" * (checker.MAX_READ + 1))
         self.assertIn("read_limit", self.codes())
         self.assertTrue(checker.scan(self.root, 32768)[2])
+
+    def test_require_files_does_not_claim_missing_when_scan_incomplete(self):
+        out = io.StringIO()
+        with patch.object(checker, "scan", return_value=([], [{"path": ".", "code": "walk_error", "message": "Could not scan."}], True)):
+            with contextlib.redirect_stdout(out):
+                code = checker.main([str(self.root), "--json", "--require-files"])
+        self.assertEqual(code, 2)
+        self.assertEqual([item["code"] for item in json.loads(out.getvalue())["findings"]], ["walk_error"])
 
 
 if __name__ == "__main__":

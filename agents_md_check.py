@@ -105,6 +105,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser = argparse.ArgumentParser(description="Check local AGENTS.md files without sending their contents anywhere.")
     parser.add_argument("root", nargs="?", default=".", help="Directory to scan (default: current directory)")
     parser.add_argument("--json", action="store_true", help="Print a machine-readable report")
+    parser.add_argument("--require-files", action="store_true", help="Report a finding if no AGENTS.md files are found")
     parser.add_argument("--max-bytes", type=int, default=DEFAULT_LIMIT, help="Advisory size threshold (default: 32768 bytes)")
     args = parser.parse_args(argv)
     if args.max_bytes < 1:
@@ -113,6 +114,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     if not root.is_dir():
         parser.error("root must be an existing directory")
     files, issues, had_error = scan(root, args.max_bytes)
+    if args.require_files and not files and not had_error:
+        issues.append(finding(".", "no_files", "No AGENTS.md files found."))
     report = {"schema_version": 1, "files_scanned": files, "findings": issues, "incomplete": had_error}
     if args.json:
         print(json.dumps(report, ensure_ascii=False, indent=2))

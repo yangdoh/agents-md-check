@@ -1,5 +1,7 @@
 # AGENTS.md Check
 
+[한국어 안내](README.ko.md)
+
 A small, offline checker for mechanical problems in `AGENTS.md` files. It helps maintainers spot issues before sharing agent instructions with a team. It does not modify files or send them over the network.
 
 ## What it checks
@@ -26,6 +28,16 @@ For a machine-readable report or a different advisory threshold:
 ```sh
 python3 agents_md_check.py /path/to/project --json --max-bytes 16384
 ```
+
+To make a missing `AGENTS.md` a finding, for example in CI, use:
+
+```sh
+python3 agents_md_check.py /path/to/project --require-files
+```
+
+This returns exit code `1` and the finding code `no_files` when a complete scan
+finds no matching files. Without this option, an empty scan remains successful.
+An incomplete scan returns `2` instead, because its file count is not reliable.
 
 The tool recursively scans `AGENTS.md` files beneath the selected directory. It skips `.git`, `.hg`, `.svn`, virtual environments, `node_modules`, `__pycache__`, and symlinked directories. It does not honor `.gitignore`; choose a root whose contents you intend to scan. Files larger than 1 MiB are reported but not analyzed, and the scan is marked incomplete. Paths and line numbers may contain sensitive information, so review reports before sharing them.
 
